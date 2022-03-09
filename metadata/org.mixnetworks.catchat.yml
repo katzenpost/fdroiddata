@@ -1,8 +1,8 @@
 Categories:
   - Internet
+License: AGPL-3.0-or-later
 AuthorName: Masala
 AuthorEmail: masala@riseup.net
-License: AGPL-3.0-or-later
 WebSite: https://katzenpost.mixnetworks.org
 SourceCode: https://github.com/katzenpost/catchat
 IssueTracker: https://github.com/katzenpost/catchat/issues
@@ -11,41 +11,41 @@ OpenCollective: the-katzenpost-software-project
 Name: Catchat
 Summary: A Metadata Minimizing Messenger
 Description: |-
-  Catchat provides messaging with metadata privacy using the katzenpost mixnet to deliver messages to ephemeral inboxes and features asynchronous message delivery without revealing a users contacts to the service operators.
-  Katzenpost is designed to be run as a federation of message service providers; where members may announce services in the PKI and provide resources such as message storage. Catchat is built using katzenpost services that are published in the PKI, which are rendezvous services for contacts to key exchange and message storage services to store messages.
+    Catchat provides messaging with metadata privacy using the katzenpost mixnet to deliver messages to ephemeral inboxes and features asynchronous message delivery without revealing a users contacts to the service operators.
+    Katzenpost is designed to be run as a federation of message service providers; where members may announce services in the PKI and provide resources such as message storage. Catchat is built using katzenpost services that are published in the PKI, which are rendezvous services for contacts to key exchange and message storage services to store messages.
 
-  Contact discovery is provided by rendezvous services for the Reunion and PANDA protocols, so that a pair of contacts may asynchronously establish a communications channel.
-  Catchat contacts are added by using a shared secret (exchanged out-of-band) and choosing a name for the new contact. Protocol messages are exchanged using the rendezvous service and establish a PQ-Hybrid (ECDH and CSIDH) ratchet which protects the conversation from eavesdropping by the message storage provider and prevents the service from learning the identities of the contacts.
+    Contact discovery is provided by rendezvous services for the Reunion and PANDA protocols, so that a pair of contacts may asynchronously establish a communications channel.
+    Catchat contacts are added by using a shared secret (exchanged out-of-band) and choosing a name for the new contact. Protocol messages are exchanged using the rendezvous service and establish a PQ-Hybrid (ECDH and CSIDH) ratchet which protects the conversation from eavesdropping by the message storage provider and prevents the service from learning the identities of the contacts.
 
-  Messages are exchanged between contacts by exchanging a message drop locations where the other contact can send messages; each contact then periodically polls this location to retrieve any messages that have been delivered. This storage service is run by the providers and similarly published in the PKI.
+    Messages are exchanged between contacts by exchanging a message drop locations where the other contact can send messages; each contact then periodically polls this location to retrieve any messages that have been delivered. This storage service is run by the providers and similarly published in the PKI.
 
-  While catchat is connected to the network, it will periodically send and receive dummy messages, which means it may use more bandwidth than other messengers, so take care with mobile network quotas.
+    While catchat is connected to the network, it will periodically send and receive dummy messages, which means it may use more bandwidth than other messengers, so take care with mobile network quotas.
 
-  If Orbot is installed and running, Catchat will use the Tor network to connect to the katzenpost mixnet.
+    If Orbot is installed and running, Catchat will use the Tor network to connect to the katzenpost mixnet.
 
-  Many other types of services are possible. Catchat is a minimal implementation of a messenger application to demonstrate the technology and does not feature file transfer, group messaging, or emojii. Patches and feedback are very welcome.
+    Many other types of services are possible. Catchat is a minimal implementation of a messenger application to demonstrate the technology and does not feature file transfer, group messaging, or emojii. Patches and feedback are very welcome.
 
-  Katzenpost is still pre-alpha.  DO NOT DEPEND ON IT FOR STRONG SECURITY OR ANONYMITY.
-
+    Katzenpost is still pre-alpha.  DO NOT DEPEND ON IT FOR STRONG SECURITY OR ANONYMITY.
 
 RepoType: git
 Repo: https://github.com/katzenpost/catchat
 
 Builds:
-  - versionName: '1.0.1'
+  - versionName: 1.0.1
     versionCode: 1
     commit: 4dec1e826f7a1741d1b49dd2c86d73f84b8920b2
     sudo:
-      - apt-get update && apt install --no-install-recommends -y git make
-        ca-certificates openjdk-11-jdk openjdk-11-jre-headless
-        build-essential libgles2 libgles2-mesa-dev libglib2.0-dev
-        libxkbcommon-dev libxkbcommon-x11-dev libglu1-mesa-dev
-        libxcursor-dev libwayland-dev libx11-xcb-dev libvulkan-dev unzip
-        && update-ca-certificates
+      - apt-get update
+      - apt install --no-install-recommends -y git make ca-certificates openjdk-11-jdk
+        openjdk-11-jre-headless build-essential libgles2 libgles2-mesa-dev libglib2.0-dev
+        libxkbcommon-dev libxkbcommon-x11-dev libglu1-mesa-dev libxcursor-dev libwayland-dev
+        libx11-xcb-dev libvulkan-dev unzip
+      - update-ca-certificates
     output: catchat.apk
     build:
       - go install gioui.org/cmd/gogio
-      - gogio -arch arm64,amd64 -x -target android -appid org.mixnetworks.catchat -version 1 .
+      - gogio -arch arm64,amd64 -x -target android -appid org.mixnetworks.catchat
+        -version 1 .
     ndk: r23b
 
 AutoUpdateMode: Version %v
