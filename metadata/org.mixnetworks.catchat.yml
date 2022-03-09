@@ -37,18 +37,27 @@ Builds:
     sudo:
       - apt-get update
       - apt install --no-install-recommends -y git make ca-certificates openjdk-11-jdk
-        openjdk-11-jre-headless build-essential libgles2 libgles2-mesa-dev libglib2.0-dev
+        openjdk-11-jre-headless build-essential libgles2-mesa libgles2-mesa-dev libglib2.0-dev
         libxkbcommon-dev libxkbcommon-x11-dev libglu1-mesa-dev libxcursor-dev libwayland-dev
         libx11-xcb-dev libvulkan-dev unzip
       - update-ca-certificates
     output: catchat.apk
     build:
+      - apt-get update
+      - apt install --no-install-recommends -y git make ca-certificates openjdk-11-jdk
+        openjdk-11-jre-headless build-essential libgles2-mesa libgles2-mesa-dev libglib2.0-dev
+        libxkbcommon-dev libxkbcommon-x11-dev libglu1-mesa-dev libxcursor-dev libwayland-dev
+        libx11-xcb-dev libvulkan-dev unzip
+      - update-ca-certificates
+      - curl -Lso go.tar.gz https://golang.org/dl/go1.17.7.linux-amd64.tar.gz
+      - echo "02b111284bedbfa35a7e5b74a06082d18632eff824fd144312f6063943d49259  go.tar.gz" | sha256sum -c -
+      - tar xf go.tar.gz
+      - PATH="$PWD/go/bin:$HOME/go/bin:$PATH"
       - go install gioui.org/cmd/gogio
-      - gogio -arch arm64,amd64 -x -target android -appid org.mixnetworks.catchat
-        -version 1 .
+      - ANDROID_SDK_ROOT=$$SDK$$ ANDROID_NDK_ROOT=$$NDK$$ gogio -arch arm64,amd64 -x -target android -appid org.mixnetworks.catchat -version 1 .
     ndk: r23b
 
-AutoUpdateMode: Version %v
+AutoUpdateMode: None
 UpdateCheckMode: None
 CurrentVersion: v0.0.31
 CurrentVersionCode: 1
